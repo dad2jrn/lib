@@ -17,7 +17,15 @@ class WeatherApp:
             return f.read().strip()
 
     def get_ip_location(self) -> Optional[str]:
-        pass
+        """
+        Retrieves the IP location of the user.
+
+        Returns:
+        --------
+        str or None:
+            The IP address if the retrieval was successful; None otherwise.
+        """
+        
 
     def get_weather_data(self, query: str) -> Optional[Any]:
         pass
