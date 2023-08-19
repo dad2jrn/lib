@@ -5,7 +5,10 @@ import requests
 class WeatherApp:
 
     def __init__(self):
-        pass
+        """Initializes the WeatherApp with given configuration."""
+        self.api_key_file = api_key_file
+        self.default_query = default_query
+        self.api_key = self.read_api_key()
 
     def read_api_key(self) -> Optional[str]:
         """Reads the API key from the provided file.
