@@ -4,7 +4,7 @@ import requests
 
 class WeatherApp:
 
-    def __init__(self):
+    def __init__(self, api_key_file: str, default_query: str = "23168"):
         """Initializes the WeatherApp with given configuration."""
         self.api_key_file = api_key_file
         self.default_query = default_query
