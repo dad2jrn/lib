@@ -11,10 +11,13 @@ class WeatherApp:
         self.api_key = self.read_api_key()
 
     def read_api_key(self) -> Optional[str]:
-        """Reads the API key from the provided file.
+        """
+        Reads the API key from the provided file.
 
         Returns:
-        - The API key as a string if successful, or None otherwise.
+        --------
+        str or None:
+            The API key if found and read successfully; None otherwise.
         """
         with open(self.api_key_file, 'r') as f:
             return f.read().strip()
