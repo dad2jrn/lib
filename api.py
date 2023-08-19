@@ -47,6 +47,8 @@ class WeatherApp:
         dict or None:
             Weather data in JSON format if retrieval was successful; None otherwise.
         """
+        base_url = "http://api.weatherapi.com/v1/current.json?"
+        url = f"{base_url}key={self.api_key}&q={query}"
 
     def run(self):
         pass
