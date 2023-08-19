@@ -34,7 +34,19 @@ class WeatherApp:
             return None
 
     def get_weather_data(self, query: str) -> Optional[Any]:
-        pass
+        """
+        Fetches the weather data for the specified query.
+
+        Parameters:
+        -----------
+        query : str
+            The location (either IP or ZIP) for which weather data is sought.
+
+        Returns:
+        --------
+        dict or None:
+            Weather data in JSON format if retrieval was successful; None otherwise.
+        """
 
     def run(self):
         pass
