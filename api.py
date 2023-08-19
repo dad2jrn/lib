@@ -81,5 +81,5 @@ class WeatherApp:
             print(weather_data)
 
 if __name__ == "__main__":
-    app = WeatherApp()
+    app = WeatherApp('secrets.txt')
     app.run()
