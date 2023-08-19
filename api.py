@@ -67,6 +67,15 @@ class WeatherApp:
         Reads the API key, determines the query (using IP location or the default),
         fetches the weather data, and prints it.
         """
+        if self.api_key is None:
+            print("Failed to read API key.")
+            return None
+
+        query = self.get_ip_location() or self.default_query
+        weather_data = self.get_weather_data(query)
+
+        if weather_data:
+            print(weather_data)
 
 if __name__ == "__main__":
     app = WeatherApp()
