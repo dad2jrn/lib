@@ -61,7 +61,12 @@ class WeatherApp:
             return None
 
     def run(self):
-        pass
+        """
+        Main method to execute the WeatherApp.
+
+        Reads the API key, determines the query (using IP location or the default),
+        fetches the weather data, and prints it.
+        """
 
 if __name__ == "__main__":
     app = WeatherApp()
