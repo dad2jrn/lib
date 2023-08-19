@@ -25,7 +25,13 @@ class WeatherApp:
         str or None:
             The IP address if the retrieval was successful; None otherwise.
         """
-        
+        try:
+            response = requests.get("https://ipapi.co/json/")
+            response.raise_for_status()
+            return response.json().get("ip")
+        except requests.RequestException:
+            print("Failed to fetch IP location.")
+            return None
 
     def get_weather_data(self, query: str) -> Optional[Any]:
         pass
