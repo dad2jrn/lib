@@ -49,6 +49,13 @@ class WeatherApp:
         """
         base_url = "http://api.weatherapi.com/v1/current.json?"
         url = f"{base_url}key={self.api_key}&q={query}"
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException:
+            print(f"Failed to fetch weather data for {query}.")
+            return None
 
     def run(self):
         pass
