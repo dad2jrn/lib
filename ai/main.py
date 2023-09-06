@@ -3,7 +3,7 @@ import os
 from typing import Optional
 from functools import wraps
 
-def handle_openai_error(func):
+def handle_openai_error(func) -> Optional[str]:
     """
     A decorator to handle OpenAI API errors gracefully.
 
@@ -14,10 +14,11 @@ def handle_openai_error(func):
         func (callable): The function to be wrapped.
 
     Returns:
-        callable: The wrapped function that includes error handling.
+        Optional[str]: The string representation of an OpenAIError, if one occurs,
+                       or None if the function succeeds without raising an exception.
     """
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs) -> Optional[str]:
         try:
             return func(*args, **kwargs)
         except openai.error.OpenAIError as e:
@@ -29,7 +30,7 @@ class ChatGPTHaikuGenerator:
     Generate a haiku using GPT-3.5 Turbo
     """
 
-    def __init__(self, api_key):
+    def __init__(self, api_key: str) -> None:
         """
         Initialize with the API key
 
@@ -39,27 +40,20 @@ class ChatGPTHaikuGenerator:
         self.api_key = api_key
         openai.api_key = self.api_key
 
+    @handle_openai_error
+    def generate_haiku(self) -> Optional[str]:
+        """
+        Generate a haiku using GPT-3.5 Turbo
 
-def generate_haiku(api_key):
-    """
-    Generate a haiku using GPT-3.5 Turbo
+        Returns:
+            Optional[str]: The generated haiku as a string or None if generation fails.
+        """
+        # Define the messages for the chat
+        messages = [
+            {"role": "system", "content": "You are a helpful assistant that generates haikus."},
+            {"role": "user", "content": "Generate a haiku for me."}
+        ]
 
-    Args:
-        api_key (str): The API key for OpenAI's GPT-3.5 Turbo
-
-    Returns:
-        str: The generated haiku
-    """
-    # Set the API key
-    openai.api_key = api_key
-
-    # Define the messages for the chat
-    messages = [
-        {"role": "system", "content": "You are a helpful assistant that generates haikus."},
-        {"role": "user", "content": "Generate a haiku for me."}
-    ]
-
-    try:
         # Make the API call to generate the haiku
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -70,13 +64,9 @@ def generate_haiku(api_key):
         haiku = response['choices'][0]['message']['content']
         return haiku.strip()
 
-    except openai.error.OpenAIError as e:
-        return str(e)
-
-# Replace with your new API key
-api_key = "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"
-
-# Generate and print the haiku
-haiku = generate_haiku(api_key)
-print("Generated Haiku:")
-print(haiku)
+if __name__ == "__main__":
+    api_key = os.environ.get("api_key")
+    haiku_generator = ChatGPTHaikuGenerator(api_key)
+    haiku = haiku_generator.generate_haiku()
+    print("Generated Haiku: ")
+    print(haiku)
