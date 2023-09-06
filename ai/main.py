@@ -40,9 +40,12 @@ class ChatGPTHaikuGenerator:
             response = openai.Completion.create(prompt=prompt, max_tokens=max_tokens, engine=self.engine)
             haiku = response.choices[0].text.strip()
             return haiku
-        except openai.RequestException as e:
+        except Exception as e:
             print(e)
             return str(e)
 
 if __name__ == "__main__":
     api_key = os.environ['api_key']
+    haiku_generator = ChatGPTHaikuGenerator(api_key=api_key)
+    haiku = haiku_generator.generate_haiku()
+    print(f'Generating haiku:\n{haiku}')
