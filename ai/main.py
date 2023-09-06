@@ -45,4 +45,4 @@ class ChatGPTHaikuGenerator:
             return str(e)
 
 if __name__ == "__main__":
-    openai.api_key = os.environ['api_key']
+    api_key = os.environ['api_key']
