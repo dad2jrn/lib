@@ -1,4 +1,28 @@
 import openai
+import os
+from typing import Optional
+from functools import wraps
+
+def handle_openai_error(func):
+    """
+    A decorator to handle OpenAI API errors gracefully.
+
+    This decorator wraps a function that makes OpenAI API calls, catching
+    any OpenAIError exceptions and returning their string representation.
+
+    Args:
+        func (callable): The function to be wrapped.
+
+    Returns:
+        callable: The wrapped function that includes error handling.
+    """
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except openai.error.OpenAIError as e:
+            return str(e)
+    return wrapper
 
 def generate_haiku(api_key):
     """
