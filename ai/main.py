@@ -1,51 +1,42 @@
 import openai
-import os
-from typing import Optional
 
-
-
-class ChatGPTHaikuGenerator:
+def generate_haiku(api_key):
     """
-    A class to generate haikus using the ChatGPT API.
+    Generate a haiku using GPT-3.5 Turbo
 
-    Attributes:
-        api_key (str): The API key for OpenAI's GPT-3.
-        engine (str): The engine to use for text generation.
+    Args:
+        api_key (str): The API key for OpenAI's GPT-3.5 Turbo
 
-    Methods:
-        generate_haiku: Makes an API call to generate a random haiku.
+    Returns:
+        str: The generated haiku
     """
-    def __init__(self, api_key, engine='text-davinci-002') -> Optional[None]:
-        """
-        Initializes a new instance of the ChatGPTHaikuGenerator class.
+    # Set the API key
+    openai.api_key = api_key
 
-        Args:
-            api_key (str): The API key for OpenAI's GPT-3.
-            engine (str): The engine to use for text generation. Defaults to 'text-davinci-002'.
-        """
-        self.api_key = api_key
-        self.engine = engine
-        openai.api_key = self.api_key
+    # Define the messages for the chat
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant that generates haikus."},
+        {"role": "user", "content": "Generate a haiku for me."}
+    ]
 
-    def generate_haiku(self):
-        """
-        Makes an API call to generate a random haiku.
+    try:
+        # Make the API call to generate the haiku
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages
+        )
 
-        Returns:
-            str: The generated haiku.
-        """
-        prompt = "Generate a random haiku that makes sense"
-        max_tokens = 30 # Limit the number of tokens for the generated text
-        try:
-            response = openai.Completion.create(prompt=prompt, max_tokens=max_tokens, engine=self.engine)
-            haiku = response.choices[0].text.strip()
-            return haiku
-        except Exception as e:
-            print(e)
-            return str(e)
+        # Extract and return the haiku from the API response
+        haiku = response['choices'][0]['message']['content']
+        return haiku.strip()
 
-if __name__ == "__main__":
-    api_key = os.environ['api_key']
-    haiku_generator = ChatGPTHaikuGenerator(api_key=api_key)
-    haiku = haiku_generator.generate_haiku()
-    print(f'Generating haiku:\n{haiku}')
+    except openai.error.OpenAIError as e:
+        return str(e)
+
+# Replace with your new API key
+api_key = "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"
+
+# Generate and print the haiku
+haiku = generate_haiku(api_key)
+print("Generated Haiku:")
+print(haiku)
