@@ -24,6 +24,22 @@ def handle_openai_error(func):
             return str(e)
     return wrapper
 
+class ChatGPTHaikuGenerator:
+    """
+    Generate a haiku using GPT-3.5 Turbo
+    """
+
+    def __init__(self, api_key):
+        """
+        Initialize with the API key
+
+        Args:
+            api_key (str): OpenAI API Key for GPT-3.5 Turbo
+        """
+        self.api_key = api_key
+        openai.api_key = self.api_key
+
+
 def generate_haiku(api_key):
     """
     Generate a haiku using GPT-3.5 Turbo
