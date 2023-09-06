@@ -35,9 +35,9 @@ class WeatherApp:
             response = requests.get("https://ipapi.co/json/")
             response.raise_for_status()
             return response.json().get("ip")
-        except requests.RequestException:
-            print("Failed to fetch IP location.")
-            return None
+        except requests.RequestException as e:
+            print(str(e))
+            return str(e)
 
     def get_weather_data(self, query: str) -> Optional[Any]:
         """

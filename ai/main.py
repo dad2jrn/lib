@@ -1,6 +1,6 @@
 import openai
 import os
-from typting import Optional
+from typing import Optional
 
 
 
@@ -23,7 +23,9 @@ class ChatGPTHaikuGenerator:
             api_key (str): The API key for OpenAI's GPT-3.
             engine (str): The engine to use for text generation. Defaults to 'text-davinci-002'.
         """
-        pass
+        self.api_key = api_key
+        self.engine = engine
+        openai.api_key = self.api_key
 
     def generate_haiku(self):
         """
@@ -32,7 +34,15 @@ class ChatGPTHaikuGenerator:
         Returns:
             str: The generated haiku.
         """
-        pass
+        prompt = "Generate a random haiku that makes sense"
+        max_tokens = 30 # Limit the number of tokens for the generated text
+        try:
+            response = openai.Completion.create(prompt=prompt, max_tokens=max_tokens, engine=self.engine)
+            haiku = response.choices[0].text.strip()
+            return haiku
+        except openai.RequestException as e:
+            print(e)
+            return str(e)
 
 if __name__ == "__main__":
-    openai.api_key = os.environ['API_KEY']
+    openai.api_key = os.environ['api_key']
